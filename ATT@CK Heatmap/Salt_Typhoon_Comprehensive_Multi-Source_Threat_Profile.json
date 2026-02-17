@@ -1,0 +1,1145 @@
+{
+	"name": "Salt Typhoon — Comprehensive Multi-Source Threat Profile",
+	"versions": {
+		"attack": "18",
+		"navigator": "5.3.0",
+		"layer": "4.5"
+	},
+	"domain": "enterprise-attack",
+	"description": "Comprehensive ATT&CK heatmap for Salt Typhoon (Earth Estries / GhostEmperor / FamousSparrow / UNC2286 / RedMike / OPERATOR PANDA) compiled from four independent sources: (1) Rapid7 Labs Threat Focus report (August 2025), (2) CISA/NSA/FBI Joint Advisory AA25-239A (August 2025), (3) Trend Micro Earth Estries research (October 2024), (4) Darktrace European telco intrusion case study (October 2025). Scoring: 3 = Core/Critical, 2 = Frequently Used, 1 = Supporting/Secondary.",
+	"filters": {
+		"platforms": [
+			"Windows",
+			"Linux",
+			"Network"
+		]
+	},
+	"sorting": 3,
+	"layout": {
+		"layout": "side",
+		"aggregateFunction": "average",
+		"showID": true,
+		"showName": true,
+		"showAggregateScores": false,
+		"countUnscored": false,
+		"expandedSubtechniques": "none"
+	},
+	"hideDisabled": false,
+	"techniques": [
+		{
+			"techniqueID": "T1190",
+			"tactic": "initial-access",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] [Darktrace] Primary initial access vector across all sources. Exploits unpatched VPN appliances (Ivanti CVE-2023-46805/CVE-2024-21887), firewalls (Fortinet, Sophos, Palo Alto CVE-2024-3400), Exchange servers (ProxyLogon), Cisco IOS XE (CVE-2023-20198/CVE-2023-20273), and Citrix NetScaler (CVE-2025-5777). CISA notes zero-day exploitation has NOT been observed — all are known CVEs.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1078",
+			"tactic": "initial-access",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Stolen VPN credentials for recurrent access. CISA documents weak credentials like 'cisco/cisco' routinely exploited. Leaked data showed hundreds of router usernames/passwords.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1078",
+			"tactic": "persistence",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Stolen VPN and router credentials maintained for persistent re-entry.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1078",
+			"tactic": "lateral-movement",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Pivots through VPN/RDP/SSH using stolen credentials. CISA documents reuse of service and automation credentials (e.g., RANCID config-archival accounts) to enumerate and access other networking devices.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1199",
+			"tactic": "initial-access",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Leverages compromised devices and trusted connections or private interconnections (provider-to-provider or provider-to-customer links) to pivot into other networks. Targets edge devices regardless of ownership — any device in the attack path is useful.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] PowerShell and batch scripts for payload deployment. WMIC for remote process execution. CISA adds network device CLI execution via SNMP, SSH, and HTTP.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1059.001",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Trend Micro] PowerShell for payload deployment. DEMODEX PowerShell dropper (onedrived.ps1) documented by Trend Micro.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059.003",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Batch scripts used for payload deployment.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059.006",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Python execution inside Guest Shell containers on Cisco devices. Includes running siet.py to exploit Cisco Smart Install, installing packages via pip/yum, and parsing staged artifacts.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059.008",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Network Device CLI execution observed on compromised routers via SNMP commands, SSH sessions, HTTP GET/POST requests targeting /level/15/exec/-/*. Includes Tcl scripts (TCLproxy.tcl, map.tcl) on Cisco IOS devices.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1047",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] WMIC explicitly named as a key tool — remote process execution, system enumeration, account dumping via native Windows interface.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Scheduled tasks for execution and persistence. Flagged as detection opportunity — monitor for unexpected creation.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1053",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Scheduled tasks for maintaining persistence.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1569",
+			"tactic": "execution",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Executing commands on routers via SNMP service execution.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1014",
+			"tactic": "defense-evasion",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [Trend Micro] CRITICAL — Demodex kernel-mode rootkit is a signature Salt Typhoon tool. Hides processes and files at kernel level, maintains SYSTEM-level control. Loaded via exploit bypassing driver signature enforcement. Trend Micro provides SHA-256 hash: 16c8afd3b35c76a476851f4994be180f0cd72c7b250e493d3eb8c58619587266.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1547",
+			"tactic": "persistence",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [Trend Micro] Demodex rootkit maintains stealthy persistence. SparrowDoor installed as Windows services starting on boot. DEMODEX driver persists at C:\\Windows\\System32\\drivers\\dumpfiskfss.sys.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1543",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] SparrowDoor installed as a Windows service for persistence. Backdoors deployed as services.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1543.005",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] On Cisco NX-OS, systemd-managed services inside Guest Shell provide persistent container-based access. Long-running components managed by systemd within the LXC environment.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1136",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Creates new accounts for persistent access. CISA documents creating accounts and assigning privileges on routers via configuration modification. Audit for unauthorized account creation.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1136.001",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Local account creation on compromised routers with elevated privileges. Observed via CVE-2023-20198 exploitation creating unauthorized admin accounts through WSMA endpoints.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1098",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Account manipulation for persistence on network devices.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1098.004",
+			"tactic": "persistence",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Adds SSH authorized keys to existing SSH services on network devices to regain entry. SSH servers enabled on non-default TCP ports using 22x22 numbering scheme.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1610",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Deploys and operates within on-box Linux containers (Guest Shell) on Cisco networking devices to stage tools, process data locally, and move laterally. Activities within containers are not closely monitored, enabling undetected operations. Guest Shell on IOS XE is an LXC managed by IOx; on NX-OS accessed via 'run guestshell'.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1610",
+			"tactic": "execution",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Runs commands within Guest Shell containers — Python scripts, native Linux tooling, package installation. Uses dohost on NX-OS to script host-level CLI actions.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1068",
+			"tactic": "privilege-escalation",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Exploits system vulnerabilities for privilege gain. CISA documents CVE-2023-20273 for post-auth command injection/privilege escalation on Cisco IOS XE chained with CVE-2023-20198.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1574",
+			"tactic": "privilege-escalation",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] DLL sideloading for privilege escalation and defense evasion.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1574.002",
+			"tactic": "privilege-escalation",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] [Trend Micro] DLL sideloading confirmed across multiple sources. Darktrace observed SNAPPYBEE delivered as DLL alongside legitimate Norton Antivirus, Bkav Antivirus, and IObit Malware Fighter executables. Trend Micro documents SNAPPYBEE loaders as WINMM.dll, DgApi.dll, imfsbDLL.dll.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1574",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] DLL sideloading for defense evasion — executing payloads under the guise of trusted AV software.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1574.002",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] [Trend Micro] DLL sideloading via trusted AV binaries to bypass endpoint security controls.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1134",
+			"tactic": "privilege-escalation",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Abuse of access tokens or credential material to assume higher privileges.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1027",
+			"tactic": "defense-evasion",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Heavy obfuscation and encryption in malware. Multiple layers of encryption/packing in Demodex and other implants. CISA documents double-encoding of URL paths (e.g., /%2577eb%2575i_%2577sma_Http) to obfuscate exploitation of CVE-2023-20198.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1027.010",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Command obfuscation via double-encoding portions of HTTP request paths when exploiting CVE-2023-20198 WSMA endpoints. Observed requests varied in case — hunting should be case-insensitive and tolerant of over-encoding.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1070",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Deletes or alters logs to cover tracks. CISA documents clearing system logs via HTTP requests to /level/15/exec/-/* and using 'guestshell destroy' to remove container evidence.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1070.009",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Uses 'guestshell disable' and 'guestshell destroy' commands to deactivate and uninstall Guest Shell containers, returning all resources to the system and clearing persistence evidence.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1036",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] Uses valid code-signing certificates and LOLBins to execute payloads. Darktrace confirms masquerading via legitimate AV executables (Norton, Bkav, IObit) to deliver SNAPPYBEE.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1562",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Disables security tools and uses kernel hooks to blind endpoint defenses. CISA documents modifying ACLs to whitelist attacker IPs, bypassing security policies.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1562.004",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Modifies Access Control Lists to add attacker-controlled IP addresses, bypassing security policies. Commonly named 'access-list 20' (fallback to 50 or 10). Permits persistent traffic from threat actor infrastructure.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1553",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Demodex rootkit loaded via exploit that bypasses driver signature enforcement.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1556",
+			"tactic": "credential-access",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Modifies TACACS+ server configuration on routers to redirect authentication attempts to attacker-controlled IP addresses. Also adjusts AAA configurations to force less secure authentication methods or send accounting information to attacker infrastructure.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1003",
+			"tactic": "credential-access",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Core credential access. Mimikatz for LSASS dumping. CISA documents brute-forcing Cisco Type 5 (MD5) and Type 7 (reversible encoding) password hashes from collected router configurations.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1003.001",
+			"tactic": "credential-access",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] LSASS memory dumping via Mimikatz — plaintext passwords, hashes, Kerberos tickets. Enables pass-the-hash.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1110",
+			"tactic": "credential-access",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Brute force attacks against network device credentials.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1110.002",
+			"tactic": "credential-access",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Cracks weak Cisco Type 5 (MD5) and Type 7 (reversible) password hashes extracted from router configuration files. Weak credentials like 'cisco/cisco' routinely exploited.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1552",
+			"tactic": "credential-access",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Leaked data showed hundreds of router passwords from config files. CISA documents TACACS+ credentials captured in cleartext or weakly protected forms via PCAP on compromised routers.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1040",
+			"tactic": "credential-access",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] JumbledPath sniffer backdoor at network choke points. CISA extensively documents native PCAP capture on routers (Cisco Embedded Packet Capture) to collect RADIUS/TACACS+ authentication traffic containing credentials. PCAPs named mycap.pcap, tac.pcap, 1.pcap observed.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1040",
+			"tactic": "collection",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Real-time packet capture for intelligence collection. CISA documents SPAN/RSPAN/ERSPAN traffic mirroring on routers to passively collect PCAP from specific ISP customer networks.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1550",
+			"tactic": "lateral-movement",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Pass-the-hash with harvested password hashes/tokens for lateral movement.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1056",
+			"tactic": "credential-access",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Keylogging/input capture. SNAPPYBEE RAT and Cobalt Strike both provide keylogging capability.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1087",
+			"tactic": "discovery",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Reconnaissance of domain trusts and accounts. CISA documents SNMPwalk enumeration of devices and accounts from attacker-controlled hosts.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1482",
+			"tactic": "discovery",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Domain trust discovery for understanding network architecture and lateral movement paths.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1018",
+			"tactic": "discovery",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Network scanning and mapping. CISA documents scanning for open ports and services on compromised routers.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1057",
+			"tactic": "discovery",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Enumerates running services and processes on penetrated systems.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1083",
+			"tactic": "discovery",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Gathers info on data repositories — database listings, file shares.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1518",
+			"tactic": "discovery",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Enumerates security software on penetrated systems.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1016",
+			"tactic": "discovery",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] System network configuration discovery via SNMPwalk (SNMP GET/WALK) to enumerate devices. Configuration changes issued as SNMP SET requests to writable objects from attacker-controlled hosts.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1082",
+			"tactic": "discovery",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] System information discovery on routers via HTTP requests targeting /level/15/exec/-/*. Includes displaying configuration files, accessing BGP routes, managing VRF instances. Many devices use well-known SNMP community strings ('public', 'private').",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1595",
+			"tactic": "reconnaissance",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Active scanning for open ports and services. Mirroring (SPAN/RSPAN sessions) to monitor traffic from multiple router interfaces.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1590",
+			"tactic": "reconnaissance",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Gathers victim network information including MPLS configuration, network diagrams, inventories, device configurations, and vendor lists.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1590.004",
+			"tactic": "reconnaissance",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Collects network topology information — configuration files via TFTP, MPLS configuration, BGP routes, RSVP sessions, router interfaces, and installed software inventories.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1583",
+			"tactic": "resource-development",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] [Darktrace] Acquires infrastructure for operations.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1583.003",
+			"tactic": "resource-development",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] [Darktrace] Uses virtual private servers as staging and C2 infrastructure. Darktrace observed LightNode VPS endpoints for C2 communications.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1584",
+			"tactic": "resource-development",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Compromises infrastructure for use in operations.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1584.008",
+			"tactic": "resource-development",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Compromises intermediate routers as pivot points. Targets edge devices regardless of ownership — any device in the attack path is useful for reaching targets of interest.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1588",
+			"tactic": "resource-development",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Obtains capabilities including tools and exploits for Guest Shell operations.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1588.002",
+			"tactic": "resource-development",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Obtains tools for use inside Guest Shell containers on compromised Cisco devices — Python packages, Linux utilities, pivot tools like STOWAWAY.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1021",
+			"tactic": "lateral-movement",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Primary lateral movement. PsExec, SMB/WMI, RDP, SSH. CISA adds SNMP-based lateral movement and SSH to non-default ports on routers.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1021.002",
+			"tactic": "lateral-movement",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] SMB/Windows Admin Shares via PsExec — primary lateral movement tool on Windows networks.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1021.001",
+			"tactic": "lateral-movement",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] RDP with stolen credentials. CISA documents RDP as one of the services exposed on opened non-standard ports.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1021.004",
+			"tactic": "lateral-movement",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] SSH enabled on external-facing ports of network devices for encrypted remote access. Non-default TCP ports using 22x22 numbering scheme. SSH keys added for persistent re-entry.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1570",
+			"tactic": "lateral-movement",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Deploys malware to multiple systems using enterprise software deployment tools or domain admin access.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1005",
+			"tactic": "collection",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Collects sensitive data from local systems: database dumps, email archives, telecom CDRs, voice intercepts, config files, network diagrams. CISA adds subscriber information, customer records/metadata, passwords, and vendor lists.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1114",
+			"tactic": "collection",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] Exchange servers as primary targets. Email archives explicitly listed as collected data. Exchange exploitation (ProxyLogon) was a key initial access vector.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1119",
+			"tactic": "collection",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Robocopy and custom scripts for bulk file gathering. CISA documents SPAN/RSPAN/ERSPAN traffic mirroring for automated passive collection from ISP customer networks.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1074",
+			"tactic": "collection",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Files staged before exfiltration. CISA documents staging on device storage within Guest Shell containers (e.g., flash:).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1560",
+			"tactic": "collection",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Files placed in password-protected archives for exfiltration. CISA documents staging and archiving locally collected artifacts (configs, PCAPs) within Guest Shell on device storage.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1602",
+			"tactic": "collection",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Data collection from network device configuration repositories.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1602.001",
+			"tactic": "collection",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] SNMP MIB dump — uses SNMP GET/WALK to enumerate network management data. Where possible, alters configurations via SNMP SET requests for other devices in the same community group.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1602.002",
+			"tactic": "collection",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Network device configuration dump via TFTP, including MPLS configuration information. Configuration files collected from existing provider scripts or through active survey of devices.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1071",
+			"tactic": "command-and-control",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [CISA] [Darktrace] Core C2 over HTTPS confirmed across all sources. CISA documents HTTP/HTTPS management servers reconfigured to non-default high ports (18xxx scheme). Darktrace observed HTTP POST C2 with IE User-Agent and URI pattern /17ABE7F017ABE7F0.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1071.001",
+			"tactic": "command-and-control",
+			"score": 3,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] HTTPS C2 primary channel. GhostSpider, Cobalt Strike, and SNAPPYBEE all use HTTPS. Darktrace observed dual-channel HTTP + custom TCP protocol.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1090",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Compromised servers and cloud services as C2 relay nodes. CISA documents infrastructure not attributable to known botnets.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": true
+		},
+		{
+			"techniqueID": "T1090.003",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Multi-hop proxy via STOWAWAY — open source pivoting tool used to build chained relays for C2, including interactive remote shells, file transfer, SOCKS5/HTTP proxying, and local/remote port mapping with encrypted node-to-node links.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1573",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [Darktrace] Encrypted C2 channels. GhostSpider uses TLS. Cobalt Strike encrypted beacons. Darktrace observed encrypted communications over LightNode VPS.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1572",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Protocol tunneling extensively documented. GRE, multipoint GRE (mGRE), and IPsec tunnels created on network devices to encapsulate multiple network layer protocols. Creates persistent covert channels that blend with normal traffic. May obscure source IP in logs by appearing as local IP.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1571",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Non-standard port usage. SSH on ports using 22x22 numbering (e.g., 2222, 22022). HTTP management servers on high ports using 18xxx scheme. SFTP, RDP, FTP also exposed on non-standard ports to evade monitoring.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1095",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] [Darktrace] Non-application layer protocol. CISA documents GRE tunnels and static routes for traffic redirection on compromised routers. Darktrace observed unidentified TCP-based protocol as secondary C2 channel alongside HTTP.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1568",
+			"tactic": "command-and-control",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Frequently rotates C2 infrastructure and domains to avoid tracking.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1601",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[CISA] Modifies system image — changes router configurations to add ACLs, modify routing tables, enable services, and create tunnels. Updates routing tables to redirect traffic to actor-controlled infrastructure.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1041",
+			"tactic": "exfiltration",
+			"score": 2,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Primary exfiltration over encrypted C2 channels camouflaged as normal HTTPS traffic. CISA documents custom SFTP clients (Golang binaries) used to transfer encrypted archives between staging hosts. Telecom data transmitted gradually to avoid detection.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1567",
+			"tactic": "exfiltration",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] Uploads stolen data to cloud storage services or attacker-controlled servers. Secondary exfiltration method.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1048",
+			"tactic": "exfiltration",
+			"score": 1,
+			"color": "",
+			"comment": "[Rapid7] [CISA] Exfiltration over alternative protocols. CISA documents GRE/IPsec tunnels used for exfiltration alongside standard encrypted channels.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1105",
+			"tactic": "command-and-control",
+			"score": 2,
+			"color": "",
+			"comment": "[Darktrace] Ingress Tool Transfer — SNAPPYBEE backdoor delivered from external staging server (89.31.121[.]101) to multiple internal Citrix VDA hosts as DLL alongside legitimate AV executables. Download URIs included WINMM.dll, NortonLog.txt, DgApi.dll, dbindex.dat, imfsbDll.dll, imfsbSvc.exe, fltLib.dll, DisplayDialog.exe, pdc.exe.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1665",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Darktrace] Hide Infrastructure — SoftEther VPN used to obscure the attacker's origin infrastructure during initial access. Consistent with Trend Micro's Earth Estries reporting which also documents SoftEther VPN nodes in both Campaign Alpha and Beta.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1574.001",
+			"tactic": "privilege-escalation",
+			"score": 2,
+			"color": "",
+			"comment": "[Darktrace] DLL Search Order Hijacking — Darktrace's own MITRE mapping lists T1574.001 for the execution of SNAPPYBEE through DLL hijacking alongside legitimate AV executables (Norton, Bkav, IObit).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1574.001",
+			"tactic": "defense-evasion",
+			"score": 2,
+			"color": "",
+			"comment": "[Darktrace] DLL Search Order Hijacking for defense evasion — executing payloads under the guise of trusted AV software.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1609",
+			"tactic": "execution",
+			"score": 1,
+			"color": "",
+			"comment": "[CISA] Container administration commands. Uses 'guestshell enable' and 'guestshell run bash' on IOS XE, 'run guestshell' on NX-OS. Uses 'chvrf' to run commands in other VRFs. Uses 'dohost' to script host-level NX-OS CLI actions.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		}
+	],
+	"gradient": {
+		"colors": [
+			"#ffe766ff",
+			"#ffaf00ff",
+			"#ff0000ff"
+		],
+		"minValue": 1,
+		"maxValue": 3
+	},
+	"legendItems": [
+		{
+			"color": "#ff0000",
+			"label": "High"
+		},
+		{
+			"color": "#ffaf00",
+			"label": "Medium"
+		},
+		{
+			"color": "#ffe766",
+			"label": "Low"
+		}
+	],
+	"metadata": [
+		{
+			"name": "Source 1",
+			"value": "Rapid7 Labs — Threat Focus: Salt Typhoon (August 2025)"
+		},
+		{
+			"name": "Source 2",
+			"value": "CISA/NSA/FBI Joint Advisory AA25-239A (August 2025, v1.1 September 2025)"
+		},
+		{
+			"name": "Source 3",
+			"value": "Trend Micro — Earth Estries / Game of Emperor (October 2024)"
+		},
+		{
+			"name": "Source 4",
+			"value": "Darktrace — European Telco Salt Typhoon Intrusion (October 2025)"
+		},
+		{
+			"name": "Threat Actor",
+			"value": "Salt Typhoon / Earth Estries / GhostEmperor / FamousSparrow / UNC2286 / RedMike / OPERATOR PANDA"
+		},
+		{
+			"name": "Attribution",
+			"value": "Chinese MSS-linked APT (Sichuan Juxinhe, Beijing Huanyu Tianqiong, Sichuan Zhixin Ruijie)"
+		},
+		{
+			"name": "Created",
+			"value": "February 2026"
+		}
+	],
+	"links": [],
+	"showTacticRowBackground": true,
+	"tacticRowBackground": "#dddddd",
+	"selectTechniquesAcrossTactics": false,
+	"selectSubtechniquesWithParent": false,
+	"selectVisibleTechniques": false
+}
