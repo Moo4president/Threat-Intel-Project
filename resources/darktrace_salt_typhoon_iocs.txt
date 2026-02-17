@@ -1,0 +1,43 @@
+Salt Typhoon - European Telecommunications Intrusion (July 2025)
+Indicators of Compromise
+
+Source: Darktrace - "Salty Much: Darktrace's take on a recent Salt Typhoon intrusion"
+Published: October 2025
+URL: https://www.darktrace.com/blog/salty-much-darktraces-view-on-a-recent-salt-typhoon-intrusion
+Target: European telecommunications organization
+Malware Delivered: SNAPPYBEE (Deed RAT)
+
+
+Initial Access
+
+CVE-2025-5777		Citrix NetScaler Gateway vulnerability exploited in first week of July 2025
+
+
+Network Indicators
+
+Domain			IP			Description
+aar.gandhibludtric.com	38.54.63.75		C2 server (LightNode VPS), linked to Salt Typhoon by Silent Push
+
+
+C2 Behavior
+
+Protocol		HTTP POST requests with Internet Explorer User-Agent header
+URI Pattern		/17ABE7F017ABE7F0
+Secondary Channel	Unidentified TCP-based protocol (dual-channel C2 setup)
+
+
+DLL Sideloading (Defense Evasion)
+
+SNAPPYBEE delivered as a DLL alongside legitimate executables from the following antivirus products:
+- Norton Antivirus
+- Bkav Antivirus
+- IObit Malware Fighter
+
+Technique: DLL sideloading via trusted AV binaries to bypass endpoint security controls (T1574.002)
+
+
+Pivot Infrastructure
+
+Initial access activity originated from an endpoint associated with SoftEther VPN service,
+consistent with Salt Typhoon's known use of SoftEther for infrastructure obfuscation.
+Trend Micro's Earth Estries IOC list also documents SoftEther VPN nodes in both Campaign Alpha and Beta.
