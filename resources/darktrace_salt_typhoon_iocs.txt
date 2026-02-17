@@ -1,0 +1,91 @@
+Salt Typhoon - European Telecommunications Intrusion (July 2025)
+Indicators of Compromise
+
+Source: Darktrace - "Salty Much: Darktrace's take on a recent Salt Typhoon intrusion"
+Published: October 2025
+URL: https://www.darktrace.com/blog/salty-much-darktraces-view-on-a-recent-salt-typhoon-intrusion
+Target: European telecommunications organization
+Malware Delivered: SNAPPYBEE (Deed RAT)
+
+
+Initial Access
+
+CVE-2025-5777		Citrix NetScaler Gateway vulnerability exploited in first week of July 2025
+
+
+Network Indicators
+
+IP			Description				Confidence
+89.31.121.101		C2 server / SNAPPYBEE staging		Possible C2
+38.54.63.75		C2 server (LightNode VPS)		Likely C2
+156.244.28.153		C2 server				Possible C2
+
+Domain			Description				Confidence
+aar.gandhibludtric.com	C2 domain (resolves to 38.54.63.75)	Likely C2
+
+
+File Indicators
+
+Hash								Type	Description			Confidence
+b5367820cd32640a2d5e4c3a3c1ceedbbb715be2	SHA1	SNAPPYBEE download (WINMM.dll)	Likely SNAPPYBEE
+
+
+Download URIs (all hosted on 89.31.121.101:443)
+
+URI							Description				Confidence
+hxxp://89.31.121.101:443/WINMM.dll		SNAPPYBEE loader download		Likely SNAPPYBEE
+hxxp://89.31.121.101:443/NortonLog.txt		DLL sideloading payload			Likely sideloading
+hxxp://89.31.121.101:443/DgApi.dll		DLL sideloading payload			Likely sideloading
+hxxp://89.31.121.101:443/dbindex.dat		DLL sideloading payload			Likely sideloading
+hxxp://89.31.121.101:443/imfsbDll.dll		DLL sideloading payload			Likely sideloading
+hxxp://89.31.121.101:443/imfsbSvc.exe		DLL sideloading executable		Likely sideloading
+hxxp://89.31.121.101:443/fltLib.dll		DLL sideloading payload			Possible sideloading
+hxxp://89.31.121.101:443/DisplayDialog.exe	DLL sideloading executable		Possible sideloading
+hxxp://89.31.121.101:443//Dialog.dat		DLL sideloading payload			Possible sideloading
+hxxp://89.31.121.101:443/pdc.exe		DLL sideloading executable		Possible sideloading
+hxxp://89.31.121.101:443/123.txt		Staging file				Possible sideloading
+hxxp://89.31.121.101:443/123.tar		Staging archive				Possible sideloading
+hxxp://89.31.121.101:443/1.txt			Staging file				Possible sideloading
+hxxp://156.244.28.153/17ABE7F017ABE7F0		C2 callback URI				Possible C2
+
+
+C2 Behavior
+
+Protocol		HTTP POST requests with Internet Explorer User-Agent header
+URI Pattern		/17ABE7F017ABE7F0
+Secondary Channel	Unidentified TCP-based protocol (dual-channel C2 setup)
+Hosting			LightNode VPS infrastructure
+Port Note		Port 443 used for unencrypted HTTP traffic (T1571 - Non-Standard Port)
+
+
+DLL Sideloading (Defense Evasion)
+
+SNAPPYBEE delivered as a DLL alongside legitimate executables from the following antivirus products:
+- Norton Antivirus
+- Bkav Antivirus
+- IObit Malware Fighter
+
+Technique: DLL Search Order Hijacking / DLL Sideloading (T1574.001 / T1574.002)
+
+Notable overlap with Trend Micro Earth Estries IOC list:
+- WINMM.dll, DgApi.dll, imfsbDLL.dll, dbindex.dat, NortonLog.txt all appear as
+  SNAPPYBEE loader/payload filenames in both Darktrace and Trend Micro reporting,
+  confirming consistent tooling across campaigns.
+
+
+Pivot Infrastructure
+
+Initial access activity originated from an endpoint associated with SoftEther VPN service (T1665),
+consistent with Salt Typhoon's known use of SoftEther for infrastructure obfuscation.
+Trend Micro's Earth Estries IOC list also documents SoftEther VPN nodes in both Campaign Alpha and Beta.
+
+
+MITRE ATT&CK Mapping (per Darktrace)
+
+T1190		Exploit Public-Facing Application (Citrix NetScaler CVE-2025-5777)
+T1105		Ingress Tool Transfer (backdoor delivery to internal Citrix VDA hosts)
+T1665		Hide Infrastructure (SoftEther VPN for C2 obfuscation)
+T1574.001	DLL Search Order Hijacking (SNAPPYBEE via AV executables)
+T1095		Non-Application Layer Protocol (unidentified TCP-based C2)
+T1071.001	Web Protocols (HTTP POST C2 with IE User-Agent)
+T1571		Non-Standard Port (port 443 for unencrypted HTTP)
