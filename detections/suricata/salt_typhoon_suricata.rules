@@ -1,0 +1,36 @@
+# =============================================================================
+# Salt Typhoon (Earth Estries) - Suricata IDS Detection Rule
+#
+# Author:      Moo
+# Created:     2026-02-17
+# Version:     1.0
+# Description: Detects SNAPPYBEE (Deed RAT) C2 callback traffic observed during
+#              Salt Typhoon intrusion of a European telecom (July 2025).
+#
+#              Detection logic combines three behavioral indicators observed by
+#              Darktrace in a single HTTP session:
+#                1. HTTP POST method (SNAPPYBEE's C2 exfil channel)
+#                2. Internet Explorer User-Agent header (anachronistic - IE is
+#                   discontinued, so legitimate IE traffic is near-zero in modern
+#                   networks, making this a strong behavioral signal)
+#                3. The unique C2 URI path /17ABE7F017ABE7F0 (hardcoded callback)
+#
+#              Additional context: Salt Typhoon runs HTTP over port 443 WITHOUT
+#              TLS encryption (T1571 - Non-Standard Port), which is itself
+#              anomalous and detectable via the http protocol keyword on port 443.
+#
+# Sources:
+#   [3] Darktrace - "Salty Much: Salt Typhoon intrusion" (October 2025)
+#        https://www.darktrace.com/blog/salty-much-darktraces-view-on-a-recent-salt-typhoon-intrusion
+#
+# MITRE ATT&CK: T1071.001 (Web Protocols), T1571 (Non-Standard Port)
+#
+# Deployment: Save as local.rules, add to suricata.yaml rule-files section.
+# SID Range:  9100001+ (custom, above 9000000 to avoid collisions)
+# =============================================================================
+
+
+# --- Primary Detection: SNAPPYBEE C2 callback URI + HTTP POST + IE User-Agent ---
+# This rule fires when all three behavioral indicators are present in a single
+# HTTP session, providing high-confidence detection with minimal false positives.
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"SALT TYPHOON - SNAPPYBEE C2 Callback (POST + IE UA + /17ABE7F017ABE7F0) [Darktrace]"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/17ABE7F017ABE7F0"; http.user_agent; content:"MSIE"; classtype:trojan-activity; sid:9100001; rev:1; metadata:created_at 2026_02_17, updated_at 2026_02_17; reference:url,www.darktrace.com/blog/salty-much-darktraces-view-on-a-recent-salt-typhoon-intrusion;)
